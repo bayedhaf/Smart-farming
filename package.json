@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+  "lint": "eslint",
+  "test:db": "node scripts/test-mongo-conn.js"
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.7",

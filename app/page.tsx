@@ -14,7 +14,7 @@ export default function HomePage() {
       <Header/>
 
     
-      <section className="relative h-[100vh] w-full flex items-center justify-center overflow-hidden">
+  <section className="relative h-screen w-full flex items-center justify-center overflow-hidden">
         <Image
           src="/farm1e.jpg"
           alt="Farm field"

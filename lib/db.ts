@@ -31,6 +31,8 @@ declare global {
         if (code === "ETIMEOUT" || msg.includes("querySrv ETIMEOUT")) {
           console.error("Hint: SRV DNS lookup timed out. Set MONGODB_STANDARD_URI (non-SRV) in .env.local to bypass SRV.");
         }
+        // Clear cached promise so future attempts can retry after a failure
+        global._mongoClientPromise = undefined;
         throw err;
       });
     }

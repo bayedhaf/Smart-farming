@@ -35,3 +35,29 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 # Smart-farming
+
+## Local environment
+
+Create a `.env.local` at the project root with your MongoDB connection string:
+
+Preferred (non-SRV) to avoid SRV DNS issues:
+
+```
+MONGODB_STANDARD_URI="mongodb://127.0.0.1:27017/seed_db"
+MONGODB_DB="seed_db"
+```
+
+Alternatively (Atlas SRV):
+
+```
+MONGODB_URI="mongodb+srv://<user>:<pass>@cluster.example.mongodb.net/?retryWrites=true&w=majority"
+MONGODB_DB="seed_db"
+```
+
+Then verify connectivity:
+
+```
+npm run test:db -- --ping
+```
+
+If you see a timeout with SRV (querySrv ETIMEOUT), switch to `MONGODB_STANDARD_URI` or ensure Atlas IP allowlist includes your IP and DNS resolves SRV records.

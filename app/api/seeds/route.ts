@@ -5,12 +5,24 @@ import { v4 as uuidv4 } from "uuid"
 import clientPromise from "@/lib/db"
 
 export const dynamic = "force-dynamic"
+export const runtime = "nodejs"
+
+type SeedDoc = {
+  _id: unknown
+  title?: string
+  description?: string
+  status?: string
+  category?: string
+  images?: string[]
+  createdAt?: Date | string | null
+}
 
 export async function POST(req: Request) {
   try {
     // Ensure a single MongoClient connection is available
     const client = await clientPromise
-    const db = client.db("seed_db")
+  const dbName = process.env.MONGODB_DB || "seed_db"
+  const db = client.db(dbName)
     const seeds = db.collection("seeds")
 
     const formData = await req.formData()
@@ -46,9 +58,20 @@ export async function POST(req: Request) {
       createdAt: new Date(),
     })
     const newSeed = await seeds.findOne({ _id: insertResult.insertedId })
+    const safeSeed = newSeed
+      ? {
+          _id: String(newSeed._id),
+          title: newSeed.title,
+          category: newSeed.category,
+          description: newSeed.description,
+          status: newSeed.status,
+          images: newSeed.images ?? [],
+          createdAt: newSeed.createdAt,
+        }
+      : null
 
     return NextResponse.json(
-      { message: "✅ Seed saved successfully!", seed: newSeed },
+      { message: "✅ Seed saved successfully!", seed: safeSeed },
       { status: 201 }
     )
   } catch (error) {
@@ -63,13 +86,28 @@ export async function POST(req: Request) {
 // -------------------- GET (Fetch All Seeds) --------------------
 export async function GET() {
   try {
-    const client = await clientPromise
-    const db = client.db("seed_db")
+  const client = await clientPromise
+  const dbName = process.env.MONGODB_DB || "seed_db"
+  const db = client.db(dbName)
     const seeds = db.collection("seeds")
 
-    const allSeeds = await seeds.find({}).sort({ createdAt: -1 }).toArray()
+    const allSeeds = await seeds
+      .find({}, { projection: { title: 1, description: 1, status: 1, images: 1, category: 1, createdAt: 1 } })
+      .sort({ createdAt: -1 })
+      .toArray()
 
-    return NextResponse.json({ seeds: allSeeds }, { status: 200 })
+  const safe = allSeeds.map((doc: SeedDoc) => ({
+      _id: String(doc._id),
+      title: doc.title ?? "",
+      description: doc.description ?? "",
+      status: doc.status ?? "",
+      category: doc.category ?? "",
+      images: Array.isArray(doc.images) ? doc.images : [],
+      createdAt: doc.createdAt ?? null,
+    }))
+
+    // Return array directly for client code expecting an array
+    return NextResponse.json(safe, { status: 200 })
   } catch (error) {
     console.error("❌ Error fetching seeds:", error)
     return NextResponse.json(
