@@ -5,7 +5,7 @@ import Link from "next/link"
 
 export default function Footer() {
   return (
-    <footer className="bg-gradient-to-r from-green-700 via-green-800 to-green-900 text-white py-8 mt-10 rounded-t-3xl shadow-lg">
+    <footer className="bg-gradient-to-r from-green-700 via-green-800 to-green-900 text-white py-8 mt-1 flex flex-rows-2 shadow-lg">
       <div className="container mx-auto px-4 text-center flex flex-col items-center gap-3">
         {/* Logo / Brand */}
         <div className="flex items-center gap-2 mb-2">

@@ -9,7 +9,7 @@ import Header from "@/components/HomeHeader/Header"
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gradient-to-b from-green-50 via-white to-green-100 overflow-hidden">
+  <div className="flex flex-col min-h-screen bg-linear-to-b from-green-50 via-white to-green-100 overflow-hidden">
    
       <Header/>
 
@@ -23,7 +23,7 @@ export default function HomePage() {
           className="object-cover object-center scale-105 brightness-[0.9] transition-transform duration-700 ease-out"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent md:from-black/70 md:via-black/30" />
+  <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/40 to-transparent md:from-black/70 md:via-black/30" />
 
         <motion.div
           initial={{ opacity: 0, y: 40 }}
@@ -60,7 +60,7 @@ export default function HomePage() {
       </section>
 
       {/* Main Content */}
-      <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-10 bg-gradient-to-b from-white via-green-50/30 to-green-100/50 rounded-t-3xl -mt-5 md:-mt-10 z-20 relative">
+  <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-8 space-y-10 bg-linear-to-b from-white via-green-50/30 to-green-100/50 rounded-t-3xl -mt-5 md:-mt-10 z-20 relative">
         <div className="max-w-4xl mx-auto">
           <AISeedInsightsCard />
 
